@@ -2,7 +2,7 @@
 data/vehicles.csv
 
 # Generated database
-inventory.db
+db/inventory.db
 
 # Environment variables
 .env
