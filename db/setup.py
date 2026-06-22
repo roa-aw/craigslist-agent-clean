@@ -9,7 +9,7 @@ import os
 import pandas as pd
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "inventory.db")
-DEFAULT_CSV = os.path.join(os.path.dirname(__file__), "data", "vehicles.csv")
+DEFAULT_CSV = os.path.join(os.path.dirname(__file__), "..", "data", "vehicles.csv")
 
 MANUFACTURER_FIXES = {
     "alfa-romeo": "alfa-romeo",
