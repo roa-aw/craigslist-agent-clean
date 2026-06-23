@@ -1,34 +1,34 @@
 # Craigslist Vehicle Sales Agent
 
-## Project Overview
+## Project Summary
 
-This project implements an AI-powered vehicle sales assistant using the Craigslist Cars & Trucks dataset. The system allows users to interact with a conversational agent and search a real vehicle inventory using natural language queries.
+This project was developed as part of the WEX 427 Workplace Experience course. The goal was to build an AI-powered sales agent that can answer customer questions about vehicle inventory using real data rather than relying only on the model's built-in knowledge.
 
-The agent can understand requests such as:
+The project uses the Craigslist Cars & Trucks dataset from Kaggle as a simulated vehicle inventory. The dataset is cleaned and stored in a SQLite database, and the AI agent can query this inventory through custom Python tools. When a user asks a question such as:
 
-* "Do you have any Honda Civics under $15,000?"
-* "Show me trucks newer than 2015."
-* "What is the average price of a Toyota Tacoma?"
+> "Do you have any Honda Civics under $15,000?"
 
-Instead of relying only on pre-trained model knowledge, the agent uses custom Python tools to query a live inventory stored in SQLite and then converts the results into natural language responses.
+the agent identifies the relevant search parameters, queries the inventory, and presents the results in a natural conversational format.
+
+The project demonstrates the integration of Python, SQLite, OpenAI Function Calling, and GitHub within a single application.
 
 ---
 
 ## System Design
 
-The project is organized into four main components:
+The application consists of four main components.
 
-### 1. Data Layer
+### 1. Data Processing Layer
 
-The Craigslist Cars & Trucks dataset is downloaded from Kaggle and processed using Python and Pandas.
+The Craigslist vehicle dataset is downloaded from Kaggle and processed using Pandas.
 
 Responsibilities:
 
-* Load the raw CSV dataset
-* Remove invalid records
-* Clean unrealistic prices and years
-* Store the cleaned data in SQLite
-* Create indexes for efficient searches
+* Reading the raw CSV file
+* Removing invalid and incomplete records
+* Filtering unrealistic prices and years
+* Creating a clean SQLite database
+* Generating indexes to improve query performance
 
 Files:
 
@@ -39,7 +39,7 @@ Files:
 
 ### 2. Inventory Search Tools
 
-Custom Python functions provide structured access to the inventory.
+The inventory tools provide a structured interface between the language model and the database.
 
 Implemented tools:
 
@@ -48,7 +48,7 @@ Implemented tools:
 * `get_makes()`
 * `get_price_range()`
 
-These tools return JSON-compatible results that can be consumed by the AI agent.
+These functions query the SQLite database and return structured JSON responses that can be used by the AI agent.
 
 Files:
 
@@ -59,15 +59,15 @@ Files:
 
 ### 3. AI Agent
 
-The AI agent uses OpenAI Function Calling.
+The AI agent uses OpenAI Function Calling to decide when a tool should be used.
 
 Responsibilities:
 
-* Understand user requests
-* Decide when a tool should be called
-* Extract parameters automatically
-* Execute inventory searches
-* Convert JSON results into natural language responses
+* Understanding user requests
+* Extracting search parameters
+* Selecting the appropriate tool
+* Executing inventory searches
+* Converting structured results into natural language responses
 
 Files:
 
@@ -78,19 +78,43 @@ Files:
 
 ### 4. User Interface
 
-A command-line interface (CLI) provides multi-turn conversations.
+The application includes a command-line chat interface that supports multi-turn conversations.
 
 Features:
 
-* Interactive chat
+* Interactive chat experience
 * Conversation memory
-* Reset command
+* Reset conversation command
 * Exit command
-* Rich console formatting
+* Rich terminal formatting
 
 File:
 
 * `cli.py`
+
+---
+
+## Project Structure
+
+```text
+craigslist-agent-clean/
+├── agent/
+│   ├── agent.py
+│   └── __init__.py
+├── db/
+│   ├── setup.py
+│   └── __init__.py
+├── tools/
+│   ├── search.py
+│   └── __init__.py
+├── data/
+│   └── vehicles.csv
+├── cli.py
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
+```
 
 ---
 
@@ -107,12 +131,12 @@ File:
 
 ---
 
-## Installation Instructions
+## Installation and Setup
 
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/roa-aw/craigslist-agent-clean.git
 cd craigslist-agent-clean
 ```
 
@@ -128,13 +152,15 @@ Download the Craigslist Cars & Trucks dataset from Kaggle:
 
 https://www.kaggle.com/datasets/austinreese/craigslist-carstrucks-data
 
-Place the file here:
+Place the dataset file in:
 
 ```text
 data/vehicles.csv
 ```
 
-### 4. Build the database
+Note: The dataset is not included in this repository because of its size.
+
+### 4. Build the inventory database
 
 ```bash
 python db/setup.py
@@ -148,13 +174,13 @@ db/inventory.db
 
 ### 5. Configure the OpenAI API key
 
-Create a `.env` file:
+Create a `.env` file in the project root:
 
 ```env
 OPENAI_API_KEY=your_api_key_here
 ```
 
-The API key is loaded automatically using `python-dotenv`.
+The project uses `python-dotenv` to load the API key automatically.
 
 ### 6. Run the application
 
@@ -166,14 +192,16 @@ python cli.py
 
 ## Required Dependencies
 
-Main dependencies:
+The project uses the following main libraries:
 
-* openai
-* pandas
-* rich
-* python-dotenv
+```text
+openai>=1.0.0
+pandas>=2.0.0
+rich>=13.0.0
+python-dotenv>=1.0.0
+```
 
-Install all dependencies using:
+Install them with:
 
 ```bash
 pip install -r requirements.txt
@@ -185,65 +213,68 @@ pip install -r requirements.txt
 
 ### Example 1
 
-User:
+**User**
 
 ```text
 Do you have any Honda Civics under $15,000?
 ```
 
-Agent:
+**Agent**
 
 ```text
 I found several Honda Civic listings under $15,000.
-Here are some matching vehicles...
+Here are some matching vehicles along with their prices and locations.
 ```
+
+---
 
 ### Example 2
 
-User:
+**User**
 
 ```text
 What is the average price of a used Toyota Tacoma?
 ```
 
-Agent:
+**Agent**
 
 ```text
-The average price of a Toyota Tacoma in the inventory is approximately ...
+The average price of a Toyota Tacoma in the current inventory is approximately ...
 ```
+
+---
 
 ### Example 3
 
-User:
+**User**
 
 ```text
 Show me trucks from 2015 or newer in California.
 ```
 
-Agent:
+**Agent**
 
 ```text
-I found several matching vehicles...
+I found several matching vehicles that meet your criteria.
 ```
 
 ---
 
 ## Development Process
 
-The project was developed incrementally using Git and GitHub.
+I developed this project incrementally and tracked progress using Git and GitHub. The implementation was divided into several stages:
 
-Major development stages:
+1. Creating the project structure and repository
+2. Loading and cleaning the Craigslist dataset
+3. Building the SQLite inventory database
+4. Implementing inventory search tools
+5. Adding OpenAI Function Calling support
+6. Developing the AI agent
+7. Creating the command-line interface
+8. Testing and debugging
+9. Writing documentation and finalizing the project
 
-1. Project scaffold and repository setup
-2. Dataset cleaning and SQLite database generation
-3. Inventory search implementation
-4. Additional search tools and utilities
-5. OpenAI function-calling integration
-6. CLI implementation
-7. Testing and debugging
-8. Documentation and final improvements
-
-Meaningful commits were used throughout development to track progress and fixes.
+A meaningful commit history was maintained throughout the project to document progress and changes.
 
 ---
 
@@ -251,12 +282,14 @@ Meaningful commits were used throughout development to track progress and fixes.
 
 Several challenges were encountered during development:
 
-* Managing a large dataset (~1.4 GB)
-* Organizing the project into multiple packages
-* Fixing import issues after refactoring
-* Handling dataset path changes after moving files
-* Building efficient inventory searches
-* Integrating OpenAI function calling with custom tools
+* Working with a large dataset (approximately 1.4 GB)
+* Designing efficient inventory search queries
+* Organizing the project into separate modules
+* Resolving import and package structure issues
+* Managing dataset and database file paths
+* Integrating custom Python tools with OpenAI Function Calling
+
+These challenges helped improve my understanding of project organization, debugging, and AI integration.
 
 ---
 
@@ -264,12 +297,13 @@ Several challenges were encountered during development:
 
 Through this project I learned:
 
-* How LLM tool calling works
-* How to build AI agents that can take actions
-* How to integrate external data sources with language models
-* How to use SQLite as an inventory backend
-* How to structure larger Python projects
-* How to manage software development using Git and GitHub
+* How AI agents interact with external tools
+* How OpenAI Function Calling works
+* How to connect language models to real-world data sources
+* How to use SQLite as a lightweight backend database
+* How to structure medium-sized Python projects
+* How to use Git and GitHub effectively throughout development
+* How to debug package imports and file path issues
 
 ---
 
@@ -277,22 +311,20 @@ Through this project I learned:
 
 ### Python
 
-Python was used for data processing, database management, tool implementation, and the command-line interface.
+Python was used for data processing, database creation, inventory searches, agent implementation, and the command-line interface.
 
 ### AI Components
 
-The OpenAI model acts as the reasoning layer. It determines when inventory tools should be called and converts structured results into natural language responses.
+The language model serves as the reasoning component of the system. Using OpenAI Function Calling, the model decides when a tool should be called, determines the required parameters, and transforms the returned JSON data into user-friendly responses.
 
 ### GitHub
 
-GitHub was used for version control, collaboration, backup, and tracking project development through a meaningful commit history.
+GitHub was used for version control, backup, and documenting the development process through meaningful commits. It also serves as the platform for sharing and evaluating the completed project.
 
 ---
 
-## Repository
+## Repository Link
 
 GitHub Repository:
 
 https://github.com/roa-aw/craigslist-agent-clean
-
-
