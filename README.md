@@ -259,7 +259,25 @@ I found several matching vehicles that meet your criteria.
 ```
 
 ---
+## Sample Output
 
+### Inventory Search
+
+The screenshot below demonstrates the AI agent extracting multiple search parameters from a natural language request and querying the inventory database.
+
+![Ford Search](images/ford-search.png)
+
+### Price Analysis
+
+The screenshot below demonstrates the AI agent using inventory statistics to answer pricing questions.
+
+![Price Analysis](images/price-analysis.png)
+
+### Multi-Turn Conversation
+
+The screenshot below demonstrates conversation memory and context awareness across multiple user interactions.
+
+![Conversation Memory](images/bmw-newer.png)
 ## Development Process
 
 I developed this project incrementally and tracked progress using Git and GitHub. The implementation was divided into several stages:
