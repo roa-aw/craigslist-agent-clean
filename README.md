@@ -265,19 +265,25 @@ I found several matching vehicles that meet your criteria.
 
 The screenshot below demonstrates the AI agent extracting multiple search parameters from a natural language request and querying the inventory database.
 
-![Ford Search](images/ford-search.png)
+<img width="792" height="623" alt="Ekran görüntüsü 2026-06-23 164722" src="https://github.com/user-attachments/assets/193ec6f0-6ae2-4553-a407-86414e194cf8" />
 
-### Price Analysis
+
+### Average Price Analysis
 
 The screenshot below demonstrates the AI agent using inventory statistics to answer pricing questions.
 
-![Price Analysis](images/price-analysis.png)
+<img width="877" height="172" alt="Ekran görüntüsü 2026-06-23 163535" src="https://github.com/user-attachments/assets/f673aad7-8afe-4090-83df-0bc40536e9ab" />
+
 
 ### Multi-Turn Conversation
 
 The screenshot below demonstrates conversation memory and context awareness across multiple user interactions.
 
-![Conversation Memory](images/bmw-newer.png)
+<img width="766" height="731" alt="Ekran görüntüsü 2026-06-23 163753" src="https://github.com/user-attachments/assets/48f23c05-ba60-4732-b0f5-694871376dd6" />
+<img width="618" height="635" alt="Ekran görüntüsü 2026-06-23 163808" src="https://github.com/user-attachments/assets/199b7c8c-2ab4-41dc-a7c8-b6467fab415f" />
+
+
+
 ## Development Process
 
 I developed this project incrementally and tracked progress using Git and GitHub. The implementation was divided into several stages:
